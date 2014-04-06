@@ -139,6 +139,13 @@ class EpiRoute
       if (!is_null($response))
       {
         $response = json_encode($response);
+        
+        if(!$response) {
+          if(function_exists('json_last_error_msg'))
+            echo json_encode(array('error' => json_last_error_msg()));
+          else
+            echo json_encode(array('error' => "A JSON Parsing Error has occurred"));
+        }
         if(isset($_GET['callback']))
           $response = "{$_GET['callback']}($response)";
         else
